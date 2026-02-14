@@ -212,7 +212,7 @@
           week: 13,
           startDate: "27 Apr 2026",
           type: "Race Week",
-          focus: "Sydney Half Marathon Week",
+          focus: "Half Marathon Week",
           monday: "Rest or 20min easy walk",
           tuesday: "5km VERY easy @ 7:30min/km",
           wednesday: "Rest or 20min easy walk",
@@ -422,7 +422,7 @@
           week: 27,
           startDate: "3 Aug 2026",
           type: "Build",
-          focus: "UTMB OCC Race Simulation",
+          focus: "Race Simulation",
           monday: "Strength training + optional 20min easy walk",
           tuesday: "12km with 10x3min uphill @ hard effort",
           wednesday: "Strength training + 7km easy",
@@ -437,7 +437,7 @@
           week: 28,
           startDate: "10 Aug 2026",
           type: "Taper",
-          focus: "UTMB OCC Taper",
+          focus: "Final taper",
           monday: "Strength training + optional 20min easy walk",
           tuesday: "10km with 6x4min uphill @ hard effort",
           wednesday: "Strength training + 6km easy",
@@ -452,7 +452,7 @@
           week: 29,
           startDate: "17 Aug 2026",
           type: "Taper",
-          focus: "UTMB OCC Taper",
+          focus: "Final taper",
           monday: "Strength training (lighter weights/higher reps)",
           tuesday: "8km with 4x2min uphill @ race effort",
           wednesday: "Strength training + 5km easy",
@@ -647,10 +647,10 @@
                             }`}>
                               {week.type}
                             </span>
-                            {week.focus.includes('Sydney') && <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">🏃 HM Race</span>}
-                            {week.focus.includes('UTA50') && <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">⛰️ Ultra</span>}
-                            {week.focus.includes('Gold Coast') && <span className="text-xs bg-purple-500 text-white px-2 py-1 rounded">🏅 Marathon</span>}
-                            {week.focus.includes('UTMB OCC') && <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded">🏔️ UTMB</span>}
+                            {week.focus.includes('Sydney') && <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">🏃 Sydney Half Marathon</span>}
+                            {week.focus.includes('UTA50') && <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">⛰️ UTA50</span>}
+                            {week.focus.includes('Gold Coast') && <span className="text-xs bg-purple-500 text-white px-2 py-1 rounded">🏅 Gold Coast Marathon</span>}
+                            {week.focus.includes('UTMB OCC') && <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded">🏔️ UTMB OCC</span>}
                           </div>
                           <div className="text-sm text-gray-600 mt-1">{week.focus}</div>
                         </div>
