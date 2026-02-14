@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amy's Training Plan - 30 Week Program</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const TrainingPlan = () => {
+      const [selectedWeek, setSelectedWeek] = useState(null);
+
+      const weeks = [
+        {
+          week: 1,
+          startDate: "2 Feb 2026",
+          type: "Build",
+          focus: "Base Building",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "8km with 4x400m @ 5k pace (90s rest)",
+          wednesday: "Strength training + 6km easy",
+          thursday: "6km easy",
+          friday: "Rest",
+          saturday: "5km social run with friends @ 7-8min/km",
+          sunday: "14km long run with cousin @ 7min/km",
+          totalKm: 39,
+          notes: "Starting with solid base after your marathon recovery. Sunday group run with cousin is perfect easy pace - don't worry about being 'slow'! Strength: glute bridges, single-leg deadlifts, calf raises, core work."
+        },
+        {
+          week: 2,
+          startDate: "9 Feb 2026",
+          type: "Build",
+          focus: "Base Building",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "9km with 5x400m @ 5k pace (90s rest)",
+          wednesday: "Strength training",
+          thursday: "6km easy",
+          friday: "Rest",
+          saturday: "6km social run with friends @ 7-8min/km",
+          sunday: "16km long run with cousin @ 7min/km",
+          totalKm: 44,
+          notes: "Gradually increasing volume. Easy pace should allow conversation."
+        },
+        {
+          week: 3,
+          startDate: "16 Feb 2026",
+          type: "Build",
+          focus: "Tempo Introduction",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 3km @ tempo pace (5:30-5:40/km)",
+          wednesday: "Strength training + 7km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "6km social run with friends @ 7-8min/km",
+          sunday: "18km long run with cousin @ 7min/km",
+          totalKm: 48,
+          notes: "First tempo run. Tempo = comfortably hard, about 85-90% effort."
+        },
+        {
+          week: 4,
+          startDate: "23 Feb 2026",
+          type: "Deload",
+          focus: "Recovery",
+          monday: "Strength training only (lighter weights/higher reps)",
+          tuesday: "6km with 4x200m strides",
+          wednesday: "Strength training + 9km easy",
+          thursday: "5km easy",
+          friday: "Rest",
+          saturday: "Rest",
+          sunday: "10km easy solo run @ 7min/km",
+          totalKm: 26,
+          notes: "Recovery week to absorb training. Listen to your body. Keep strength work light this week."
+        },
+        {
+          week: 5,
+          startDate: "2 Mar 2026",
+          type: "Build",
+          focus: "Speed Development",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 6x800m @ 5:40-5:45/km with 400m jog recovery",
+          wednesday: "Strength training + 11km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "6km social run with friends @ 7-8min/km",
+          sunday: "20km trail run with cousin @ 7min/km",
+          totalKm: 51,
+          notes: "Building towards half marathon pace. 5:40-5:45/km should feel moderately hard but sustainable."
+        },
+        {
+          week: 6,
+          startDate: "9 Mar 2026",
+          type: "Build",
+          focus: "Endurance + Trail Prep",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "11km with 4km @ tempo pace",
+          wednesday: "Strength training + 13km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "7km social run with friends @ 7-8min/km (hilly if possible)",
+          sunday: "22km long run with cousin @ 7min/km (hills/trails if available)",
+          totalKm: 55,
+          notes: "Starting to add hills/trails to prepare for UTA50. Find local trails or hilly routes."
+        },
+        {
+          week: 7,
+          startDate: "16 Mar 2026",
+          type: "Build",
+          focus: "Peak Week - HM Focus",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "12km with 8x1km @ 5:35-5:40/km (400m jog recovery)",
+          wednesday: "Strength training + 15km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "7km social run with friends @ 7-8min/km",
+          sunday: "24km long run with cousin @ 7min/km (middle 6km @ 5:40-5:45/km)",
+          totalKm: 58,
+          notes: "Highest volume week pre-taper. Key session is the 1km repeats at goal HM pace for sub-2:00."
+        },
+        {
+          week: 8,
+          startDate: "23 Mar 2026",
+          type: "Deload",
+          focus: "Recovery",
+          monday: "Strength training only (lighter weights/higher reps)",
+          tuesday: "8km with 4x400m @ 5k pace",
+          wednesday: "Strength training + 8km easy",
+          thursday: "6km easy",
+          friday: "Rest",
+          saturday: "Rest",
+          sunday: "13km trail run @ 7min/km on trails",
+          totalKm: 32,
+          notes: "Recovery week. Allow fatigue to dissipate before final push to Sydney HM."
+        },
+        {
+          week: 9,
+          startDate: "30 Mar 2026",
+          type: "Build",
+          focus: "Ultra Endurance",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "11km with 5km @ tempo pace",
+          wednesday: "Strength training + 17km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "6km social run with friends @ 7-8min/km + 10km solo @ 7min/km (simulate fatigue)",
+          sunday: "26km long run with cousin @ 7min/km",
+          totalKm: 58,
+          notes: "Building endurance for UTA50. Saturday's 26km total simulates running on tired legs."
+        },
+        {
+          week: 10,
+          startDate: "6 Apr 2026",
+          type: "Build",
+          focus: "Final Build Week - Endurance Focus",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "12km with 3x2km @ 5:35-5:40/km (3min jog recovery)",
+          wednesday: "Strength training + 19km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "8km social run with friends @ 7-8min/km + 15km solo @ 7min/km (simulate fatigue)",
+          sunday: "28km long run with cousin @ 7min/km (hilly route)",
+          totalKm: 63,
+          notes: "Building long run distance for marathon preparation. 28km is excellent endurance building. Longer intervals to build confidence at HM pace. Saturday hills prep for UTA50."
+        },
+        {
+          week: 11,
+          startDate: "13 Apr 2026",
+          type: "Taper",
+          focus: "Begin Taper - Maintain Sharpness",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 5x1km @ 5:35-5:40/km (90s jog recovery)",
+          wednesday: "Strength training + 21km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "7km social run with friends @ 7-8min/km",
+          sunday: "18km long run with cousin @ 7min/km",
+          totalKm: 52,
+          notes: "Last hard week before taper. Keep intensity sharp but don't overdo volume."
+        },
+        {
+          week: 12,
+          startDate: "20 Apr 2026",
+          type: "Taper",
+          focus: "Sydney Half Marathon Taper",
+          monday: "Strength training only (maintenance)",
+          tuesday: "8km with 4x1km @ 5:35/km (sharp but not hard)",
+          wednesday: "Strength training + 6km easy",
+          thursday: "5km easy",
+          friday: "Rest",
+          saturday: "7km social run with friends @ 7-8min/km",
+          sunday: "Rest - prep for tomorrow",
+          totalKm: 23,
+          notes: "Taper week! Trust your training. Hydrate well, eat clean, sleep more. The hard work is done. Race is next week!"
+        },
+        {
+          week: 13,
+          startDate: "27 Apr 2026",
+          type: "Race Week",
+          focus: "Sydney Half Marathon Week",
+          monday: "Rest or 20min easy walk",
+          tuesday: "5km VERY easy @ 7:30min/km",
+          wednesday: "Rest or 20min easy walk",
+          thursday: "Rest",
+          friday: "Rest",
+          saturday: "3km easy shakeout",
+          sunday: "RACE: Sydney Half Marathon (21.1km) - A-Goal: Sub-2:00 (5:41/km avg)",
+          totalKm: "29km",
+          notes: "RACE DAY SUNDAY! Course: https://runawaysydneyhalf.com.au/race-options/course-overview/ - Start conservatively, first 5km should feel EASY at 5:38-5:42/km. Maintain pace through 15km. If feeling great in final 6km, push slightly faster. This is your A-race!"
+        },
+        {
+          week: 14,
+          startDate: "4 May 2026",
+          type: "Build",
+          focus: "Ultra Trail Prep",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "8km easy (recovery from race)",
+          wednesday: "Strength training + 6km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "10km trail run @ easy pace (with elevation if possible)",
+          sunday: "16km trail run @ 7-7:30min/km (practice fueling every 45min)",
+          totalKm: 47,
+          notes: "Post-race recovery week transitioning to trail focus. Start practicing trail running technique and nutrition for UTA50 next week! Keep volume conservative - UTA50 is 10 days away."
+        },
+        {
+          week: 15,
+          startDate: "11 May 2026",
+          type: "Race Week",
+          focus: "UTA50 Taper & Race",
+          monday: "Rest or 20min easy walk",
+          tuesday: "6km with 4x2min uphill @ moderate effort",
+          wednesday: "5km easy",
+          thursday: "Rest - travel/prep",
+          friday: "3km easy shakeout",
+          saturday: "RACE: UTA50 (51.6km ultra) - Goal: <8 hours. CONSERVATIVE approach!",
+          sunday: "Rest (post-race recovery begins)",
+          totalKm: "68km",
+          notes: "UTA50 race week! Course: https://uta.utmb.world/races/UTA50 - Strategy: Walk ALL steep hills. Power hiking is your friend. Fuel every 30-45min. This is about finishing strong, not racing hard. You have Gold Coast Marathon in 7 weeks."
+        },
+        {
+          week: 16,
+          startDate: "18 May 2026",
+          type: "Recovery",
+          focus: "Post-Ultra Recovery",
+          monday: "Rest",
+          tuesday: "Rest",
+          wednesday: "Rest or 20min easy walk",
+          thursday: "Rest or 20min easy walk",
+          friday: "Rest",
+          saturday: "Rest or 30min easy walk",
+          sunday: "5km VERY easy @ 8min/km (or rest if body says so)",
+          totalKm: "5-10km",
+          notes: "CRITICAL RECOVERY WEEK. After a 51.6km ultra, your body needs serious rest. Walk instead of run if tired. Sleep 9+ hours nightly. Eat well. Hydrate constantly. No strength training this week."
+        },
+        {
+          week: 17,
+          startDate: "25 May 2026",
+          type: "Build",
+          focus: "Marathon Base Rebuild",
+          monday: "Strength training (ease back in gently)",
+          tuesday: "8km easy @ 7min/km",
+          wednesday: "Strength training + 6km easy @ 7min/km",
+          thursday: "6km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "5km social run with friends @ 7-8min/km",
+          sunday: "30km long run with cousin @ 7min/km",
+          totalKm: 55,
+          notes: "Rebuilding after UTA50. Big jump in long run to kickstart marathon prep. All runs EASY pace. Building back for Gold Coast Marathon in 6 weeks."
+        },
+        {
+          week: 18,
+          startDate: "1 Jun 2026",
+          type: "Build",
+          focus: "Marathon-Specific Work Begins",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 4km @ marathon pace (6:00-6:05/km)",
+          wednesday: "Strength training + 7km easy @ 7min/km",
+          thursday: "7km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "6km social run with friends @ 7-8min/km",
+          sunday: "33km long run with cousin @ 7min/km",
+          totalKm: 63,
+          notes: "Building long run volume significantly. Your UTA50 endurance base makes this 33km manageable. Tuesday's 4km MP segment is key quality work."
+        },
+        {
+          week: 19,
+          startDate: "8 Jun 2026",
+          type: "Build",
+          focus: "Marathon Endurance Build",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "12km with 6km @ marathon pace (6:00-6:05/km)",
+          wednesday: "Strength training + 8km easy @ 7min/km",
+          thursday: "7km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "7km social run with friends @ 7-8min/km",
+          sunday: "37km long run with cousin @ 7min/km",
+          totalKm: 70,
+          notes: "Building long run volume. Tuesday's 6km MP segment is key quality."
+        },
+        {
+          week: 20,
+          startDate: "15 Jun 2026",
+          type: "Taper",
+          focus: "Marathon Taper - Week 1",
+          monday: "Strength training (lighter weights/higher reps)",
+          tuesday: "10km with 4km @ marathon pace",
+          wednesday: "Strength training + 6km easy @ 7min/km",
+          thursday: "6km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "5km social run with friends @ 7-8min/km",
+          sunday: "20km long run with cousin @ 7min/km",
+          totalKm: 47,
+          notes: "Taper begins! Reduce volume but maintain some intensity. Your legs are absorbing the training from your 37km peak."
+        },
+        {
+          week: 21,
+          startDate: "22 Jun 2026",
+          type: "Taper",
+          focus: "Marathon Taper - Week 2",
+          monday: "Strength training (lighter weights/higher reps)",
+          tuesday: "10km with 4km @ marathon pace",
+          wednesday: "Strength training + 6km easy @ 7min/km",
+          thursday: "6km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "5km social run with friends @ 7-8min/km",
+          sunday: "16km long run with cousin @ 7min/km",
+          totalKm: 43,
+          notes: "Continuing taper. Keep runs easy except short marathon pace segments to stay sharp. Sleep is critical now - aim for 9 hours nightly."
+        },
+        {
+          week: 22,
+          startDate: "29 Jun 2026",
+          type: "Race Week",
+          focus: "Gold Coast Marathon Week",
+          monday: "Strength training only (very light)",
+          tuesday: "6km with 3x1km @ marathon pace (easy jog recovery)",
+          wednesday: "5km easy @ 7min/km",
+          thursday: "4km easy @ 7min/km",
+          friday: "Rest",
+          saturday: "3km easy shakeout (morning of day before race)",
+          sunday: "RACE: Gold Coast Marathon (42.2km) - Target: 4:15 (6:03/km average)",
+          totalKm: "60km",
+          notes: "RACE WEEK! Course: https://goldcoastmarathon.com.au/marathon-course/ - Trust your training. Carb-load Wed-Fri. Hydrate constantly. Goal: 6:00-6:05/km first half CONSERVATIVE, second half on feel. This is your A-race!"
+        },
+        {
+          week: 23,
+          startDate: "6 Jul 2026",
+          type: "Recovery",
+          focus: "Post-Marathon Recovery",
+          monday: "Rest",
+          tuesday: "Rest",
+          wednesday: "Rest or 20min walk",
+          thursday: "Rest or 20min walk",
+          friday: "Rest",
+          saturday: "4km social run with friends @ 7-8min/km (if feeling okay)",
+          sunday: "5km VERY easy @ 8min/km solo (or rest)",
+          totalKm: "9-14km",
+          notes: "Full recovery week after marathon. Let your body heal. Celebrate your achievement! Keep Saturday social run but easy pace. No cousin run on Sunday anymore - go solo. No strength training this week."
+        },
+        {
+          week: 24,
+          startDate: "13 Jul 2026",
+          type: "Recovery",
+          focus: "Gentle Return to Running",
+          monday: "Strength training (ease back in gently)",
+          tuesday: "5km easy @ 7-7:30min/km",
+          wednesday: "Rest",
+          thursday: "6km easy @ 7-7:30min/km",
+          friday: "Rest",
+          saturday: "4km social run with friends @ 7-8min/km",
+          sunday: "8km easy @ 7min/km solo",
+          totalKm: 23,
+          notes: "Gentle return to running. All runs EASY. If anything feels off, take an extra rest day. You have 6 weeks to UTMB OCC."
+        },
+        {
+          week: 25,
+          startDate: "20 Jul 2026",
+          type: "Build",
+          focus: "Trail Re-Introduction",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "8km with 6x2min uphill @ moderate effort",
+          wednesday: "Strength training + 6km easy",
+          thursday: "6km easy",
+          friday: "Rest",
+          saturday: "8km trail run @ easy pace",
+          sunday: "14km trail run @ 7-7:30min/km (practice hiking steep sections)",
+          totalKm: 42,
+          notes: "Transitioning back to trail focus for UTMB OCC. Reintroduce hill work and trail running. Keep volume moderate."
+        },
+        {
+          week: 26,
+          startDate: "27 Jul 2026",
+          type: "Build",
+          focus: "Trail Volume Build",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 8x3min uphill @ hard effort (walk/jog down)",
+          wednesday: "Strength training + 7km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "18km trail run @ easy pace (hilly) EVENING RUN",
+          sunday: "29km trail run @ 7-7:30min/km MORNING RUN (3+ hours on feet, include power hiking)",
+          totalKm: 52,
+          notes: "Building trail-specific fitness. UTMB OCC is 57.5km with 3,500m elevation gain - hill training is critical. Practice power hiking."
+        },
+        {
+          week: 27,
+          startDate: "3 Aug 2026",
+          type: "Build",
+          focus: "UTMB OCC Race Simulation",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "12km with 10x3min uphill @ hard effort",
+          wednesday: "Strength training + 7km easy",
+          thursday: "7km easy",
+          friday: "Rest",
+          saturday: "22km trail run @ 7:30-8min/km EVENING RUN (practice fueling, finish by 8pm)",
+          sunday: "35km trail run @ 7:30-8min/km MORNING RUN (start early, practice race fueling every 30-45min)",
+          totalKm: 76,
+          notes: "RACE SIMULATION WEEK! Back-to-back long runs simulate UTMB fatigue. Saturday evening 22km, then Sunday morning 35km on tired legs. This builds mental toughness and tests your fueling strategy. Expect to feel tired - that's the point!"
+        },
+        {
+          week: 28,
+          startDate: "10 Aug 2026",
+          type: "Taper",
+          focus: "UTMB OCC Taper",
+          monday: "Strength training + optional 20min easy walk",
+          tuesday: "10km with 6x4min uphill @ hard effort",
+          wednesday: "Strength training + 6km easy",
+          thursday: "6km easy",
+          friday: "Rest",
+          saturday: "10km trail run @ easy pace",
+          sunday: "16km trail run @ 7-7:30min/km (practice downhill running technique)",
+          totalKm: 48,
+          notes: "Last big trail week before taper. Focus on downhill running technique - critical for UTMB OCC's long descents."
+        },
+        {
+          week: 29,
+          startDate: "17 Aug 2026",
+          type: "Taper",
+          focus: "UTMB OCC Taper",
+          monday: "Strength training (lighter weights/higher reps)",
+          tuesday: "8km with 4x2min uphill @ race effort",
+          wednesday: "Strength training + 5km easy",
+          thursday: "5km easy",
+          friday: "Rest",
+          saturday: "6km easy trail shakeout",
+          sunday: "8km easy trail @ 7-7:30min/km",
+          totalKm: 32,
+          notes: "Taper begins! Reduce volume, maintain some uphill intensity to stay sharp. Start carb-loading Thursday. Sleep 9+ hours."
+        },
+        {
+          week: 30,
+          startDate: "24 Aug 2026",
+          type: "Race Week",
+          focus: "UTMB OCC Race Week",
+          monday: "Travel to Chamonix - light walk/stretch on arrival",
+          tuesday: "Rest or 20min easy walk - settling in Chamonix",
+          wednesday: "4km easy shakeout around Chamonix",
+          thursday: "RACE: UTMB OCC (57.5km, 3,500m D+) - Goal: <9 hours. Finish with a smile!",
+          friday: "Rest (post-race recovery, enjoy Chamonix!)",
+          saturday: "Rest or gentle walk",
+          sunday: "Rest - celebrate completing all 4 races!",
+          totalKm: "62km",
+          notes: "RACE WEEK! Course: https://montblanc.utmb.world/races/OCC - Travel Mon/Tue. Race Thursday! Strategy: Conservative start. Walk ALL steep uphills. Run runnable sections. Controlled descents. Fuel every 30-45min religiously. Goal is to FINISH and enjoy this iconic race!"
+        }
+      ];
+
+      const raceStrategy = [
+        {
+          race: "Sydney Half Marathon (Sunday 3 May 2026)",
+          course: "https://runawaysydneyhalf.com.au/race-options/course-overview/",
+          strategy: "Your first A-race! Start conservatively - first 5km should feel EASY at 5:38-5:42/km. Maintain this pace through 15km. If feeling great in final 6km, you can push slightly under 5:38/km. Aid stations: drink 2-3 sips at 7km and 14km. Don't go out too fast with the crowd - disciplined pacing is key for sub-2:00!",
+          goal: "A-Goal: Sub-2:00 (avg 5:41/km or faster). B-Goal: 2:00-2:05. Most important: Execute your pacing plan and finish strong!"
+        },
+        {
+          race: "UTA50 (Saturday 16 May 2026)",
+          course: "https://uta.utmb.world/races/UTA50",
+          strategy: "Just want to finish - treat as a training run! Only 13 days after Sydney HM. Start conservatively. Walk ALL steep sections - power hiking saves massive energy. Run gentle uphills, flats, and controlled downhills. Fuel every 30-45 minutes religiously (gels, bars, whatever works). Goal is to finish feeling good, not destroyed.",
+          goal: "Goal: Finish under 8 hours and feel good. This is 51.6km of time on feet building your aerobic base. Success = finishing strong as you have Gold Coast Marathon 7 weeks later."
+        },
+        {
+          race: "Gold Coast Marathon (Sunday 5 July 2026)",
+          course: "https://goldcoastmarathon.com.au/marathon-course/",
+          strategy: "YOUR MAIN A-RACE! You'll have 6 weeks of marathon-specific training after UTA50, including a 32km peak long run 2 weeks before race day (21 June). Your UTA50 endurance serves as massive aerobic base. Race plan: First half 2:08-2:10 (6:03-6:09/km - CONSERVATIVE), assess at halfway, negative split if feeling good. Fuel at 10km, 15km, 20km, 25km, 30km, 35km. Drink at every aid station. Miles 20-23 are the mental battle - this is where training pays off.",
+          goal: "A-Goal: 4:15 (6:03/km average). B-Goal: 4:15-4:20. Process goal: Even pacing, strong finish, execute your race plan perfectly!"
+        },
+        {
+          race: "UTMB OCC (Thursday 27 August 2026)",
+          course: "https://montblanc.utmb.world/races/OCC",
+          strategy: "Season finale - just finish and enjoy! After Gold Coast recovery (2-3 weeks easy running), you'll have 5 weeks to rebuild trail fitness. 57.5km with 3,500m elevation gain demands respect. Travel Mon/Tue. Race Thursday. Strategy: Conservative start, power hike ALL steep sections (walking uphills is faster than running), run the runnable sections, controlled descents (UTMB descents destroy quads). Poles recommended. Fuel every 30-45 minutes.",
+          goal: "Goal: Finish under 9 hours and soak in the Chamonix experience. This caps an incredible season: 2 half marathons, 1 ultra, 1 marathon, and UTMB OCC. Success = crossing that finish line and celebrating!"
+        }
+      ];
+
+      const paceGuide = {
+        easyPace: "7:00-7:30/km (Sunday long runs with cousin, recovery days)",
+        socialRuns: "7:00-8:00/km (Saturday runs with friends - perfect!)",
+        tempoPace: "5:30-5:40/km (comfortably hard, 85-90% effort)",
+        halfMarathonPace: "5:40-5:50/km (Sydney HM A-goal: sub-2:00 = 5:41/km, B-goal: 2:00-2:05)",
+        marathonPace: "6:00-6:05/km (Gold Coast goal: 6:03/km for 4:15)",
+        fiveKPace: "4:50-5:00/km (for interval sessions only)",
+        recoveryPace: "7:30-8:00/km (post-race recovery runs)",
+        ultraPace: "Variable - 7:30-9:00/km running sections + power hiking = overall 9:00-11:00/km with elevation"
+      };
+
+      const trainingPhases = [
+        {
+          title: "Phase 1: Half Marathon Prep (Weeks 1-12)",
+          content: "Building from 39km to 63km weekly volume. Mix of easy runs, tempo work, and intervals. Long runs progress from 14km to 28km. Peak long run of 28km in week 10. Social runs with friends and cousin provide perfect easy-paced base building. Strength training 2x weekly throughout."
+        },
+        {
+          title: "Phase 2: Sydney HM Race + UTA50 Prep (Weeks 13-15)",
+          content: "Week 12: Sydney HM taper. Week 13: Sydney HM RACE (Monday 3 May) + recovery. Week 14: Trail introduction. Week 15: UTA50 RACE (Saturday 16 May). Quick turnaround between races - conservative approach essential for UTA50."
+        },
+        {
+          title: "Phase 3: Post-UTA50 Recovery + Marathon Build (Weeks 16-19)",
+          content: "Week 16: Serious recovery (51.6km ultra is demanding!). Weeks 17-19: Aggressive marathon build. Long runs progress 30km → 33km → 37km peak in week 19 (14 June), exactly 3 weeks before Gold Coast Marathon. Marathon pace work on Wednesdays, easy long runs with cousin on Sundays."
+        },
+        {
+          title: "Phase 4: Marathon Taper + Race (Weeks 20-22)",
+          content: "Two-week marathon taper starting Week 20. Week 20: 20km long run, Week 21: 16km long run. Maintaining intensity with shorter marathon pace segments while reducing volume. Week 22: Gold Coast Marathon on 5 July - YOUR MAIN A-RACE!"
+        },
+        {
+          title: "Phase 5: Recovery + UTMB OCC Prep (Weeks 23-30)",
+          content: "Weeks 23-24: Post-marathon recovery. Saturday social runs continue, but no more Sunday cousin runs. Weeks 25-28: Rebuilding with trail-specific work - hill repeats, longer trail runs, practicing power hiking and fueling. Week 27: RACE SIMULATION with back-to-back long runs (20km Sat evening + 30km Sun morning). Week 29: UTMB OCC taper. Week 30: Travel Mon/Tue, race Thursday (27 Aug) - 57.5km with 3,500m elevation gain in Chamonix!"
+        }
+      ];
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 py-8 px-4">
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <div className="bg-white rounded-lg shadow-2xl p-8 mb-6">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <span className="text-5xl">🏃🏻‍♀️</span>
+                <h1 className="text-4xl font-bold text-gray-800 text-center">Amy's 2026 Training Plan</h1>
+              </div>
+              <p className="text-center text-gray-600 text-lg mb-4">February - August 2026</p>
+              <div className="bg-gradient-to-r from-indigo-100 to-purple-100 p-4 rounded-lg">
+                <p className="text-center text-gray-700 font-semibold">
+                  Sydney Half Marathon (3 May) → UTA50 (16 May) → Gold Coast Marathon (5 Jul) → UTMB OCC (27 Aug)
+                </p>
+                <p className="text-center text-sm text-gray-600 mt-2">
+                  A progressive journey: 21km → 51.6km → 42km → 57.5km ultra!
+                </p>
+              </div>
+            </div>
+
+            {/* Race Strategy */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🎯</span>
+                Race Strategy Guide
+              </h2>
+              <div className="space-y-4">
+                {raceStrategy.map((race, idx) => (
+                  <div key={idx} className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl">⛰️</span>
+                      <h3 className="font-bold text-gray-800">{race.race}</h3>
+                    </div>
+                    <a href={race.course} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:text-indigo-800 underline mb-2 block">
+                      📍 View Course Map
+                    </a>
+                    <p className="text-sm text-gray-700 mb-2">{race.strategy}</p>
+                    <div className="text-sm font-semibold text-indigo-700">🎯 {race.goal}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Pace Guide */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="text-2xl">📈</span>
+                Pace Guide
+              </h2>
+              <div className="grid md:grid-cols-2 gap-3">
+                {Object.entries(paceGuide).map(([type, pace]) => (
+                  <div key={type} className="bg-gray-50 p-3 rounded-lg">
+                    <div className="font-semibold text-gray-700 capitalize">{type.replace(/([A-Z])/g, ' $1')}</div>
+                    <div className="text-sm text-gray-600">{pace}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Training Phases */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="text-2xl">ℹ️</span>
+                Training Phases Overview
+              </h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                {trainingPhases.map((phase, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-lg">
+                    <h3 className="font-bold text-gray-800 mb-2">{phase.title}</h3>
+                    <p className="text-sm text-gray-700">{phase.content}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Weekly Schedule */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="text-2xl">📅</span>
+                30-Week Training Schedule (Feb - Aug 2026)
+              </h2>
+              
+              <div className="space-y-3">
+                {weeks.map((week) => (
+                  <div key={week.week} className="border border-gray-200 rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setSelectedWeek(selectedWeek === week.week ? null : week.week)}
+                      className={`w-full p-4 transition-colors text-left ${
+                        week.type === 'Race Week' 
+                          ? 'bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100'
+                          : 'bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <span className="font-bold text-lg text-gray-800">Week {week.week}</span>
+                            <span className="text-sm text-gray-600">{week.startDate}</span>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              week.type === 'Build' ? 'bg-blue-100 text-blue-700' :
+                              week.type === 'Deload' || week.type === 'Recovery' ? 'bg-green-100 text-green-700' :
+                              week.type === 'Taper' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>
+                              {week.type}
+                            </span>
+                            {week.focus.includes('Sydney') && <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">🏃 HM Race</span>}
+                            {week.focus.includes('UTA50') && <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">⛰️ Ultra</span>}
+                            {week.focus.includes('Gold Coast') && <span className="text-xs bg-purple-500 text-white px-2 py-1 rounded">🏅 Marathon</span>}
+                            {week.focus.includes('UTMB OCC') && <span className="text-xs bg-orange-500 text-white px-2 py-1 rounded">🏔️ UTMB</span>}
+                          </div>
+                          <div className="text-sm text-gray-600 mt-1">{week.focus}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-bold text-indigo-600">{week.totalKm}{typeof week.totalKm === 'string' ? '' : ' km'}</div>
+                          <div className="text-xs text-gray-500">total</div>
+                        </div>
+                      </div>
+                    </button>
+                    
+                    {selectedWeek === week.week && (
+                      <div className="p-4 bg-white border-t border-gray-200">
+                        <div className="grid gap-2 mb-4">
+                          {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                            <div key={day} className={`flex gap-3 p-2 rounded ${
+                              week[day]?.includes('RACE') ? 'bg-red-50 border-2 border-red-200' : 'hover:bg-gray-50'
+                            }`}>
+                              <div className="w-24 font-semibold text-gray-700 capitalize">{day}</div>
+                              <div className={`flex-1 ${week[day]?.includes('RACE') ? 'font-bold text-red-700' : 'text-gray-600'}`}>
+                                {week[day]}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="bg-blue-50 p-3 rounded-lg">
+                          <div className="font-semibold text-blue-900 mb-1">Week Notes:</div>
+                          <div className="text-sm text-blue-800">{week.notes}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Critical Notes */}
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg shadow-lg p-6 mt-6 border-2 border-amber-200">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">⚠️ Critical Multi-Race Strategy</h2>
+              <div className="space-y-3 text-gray-700">
+                <p><strong>A-Races vs B-Races:</strong> Sydney HM and Gold Coast Marathon are your A-races - give these full effort! UTA50 and UTMB OCC are B-races - goal is to finish and enjoy, not race hard. This approach protects your body and ensures quality performances where it matters most.</p>
+                
+                <p><strong>Aggressive Marathon Long Run Build:</strong> Your marathon long runs progress boldly: 30km (Week 17) → 33km (Week 18) → 37km peak (Week 19). The 37km happens on 14 June - exactly 3 weeks before Gold Coast Marathon. This aggressive progression works because your UTA50 endurance base (51.6km just 4 weeks prior) gives you the aerobic foundation. Then a proper 2-week taper.</p>
+                
+                <p><strong>The 37km Long Run Strategy:</strong> Week 19's 37km run (14 June) is 3 weeks before Gold Coast Marathon on 5 July. Run the entire distance at 7min/km with your cousin. Don't add marathon pace sections - the distance itself is the stimulus. Fuel every 30-45 minutes, practice your race nutrition strategy. This massive run builds enormous confidence for your 4:15 goal.</p>
+                
+                <p><strong>Your Social Runs Are Perfect:</strong> Saturday social runs (7-8min/km) and Sunday long runs with cousin (7min/km) are IDEAL easy pace running. Don't feel pressure to run faster - this builds aerobic base and allows recovery. Your Wednesday speed sessions provide the intensity needed.</p>
+                
+                <p><strong>Training with Your Cousin:</strong> Having a consistent long run partner through Gold Coast Marathon is brilliant! You'll build the same endurance base together through Week 22. For weeks with faster sections (like week 9), start together and break off for the fast portion, then cool down together. After the marathon, you'll continue Saturday social runs with friends but do Sunday runs solo for UTMB OCC prep.</p>
+                
+                <p><strong>The UTA50 Challenge:</strong> Running 51.6km only 13 days after Sydney HM requires conservative approach. Walk ALL steep sections - power hiking saves massive energy. Fuel every 30-45min. Goal is finishing under 8 hours feeling good, not racing hard. You have Gold Coast Marathon 7 weeks later.</p>
+                
+                <p><strong>Post-Marathon to UTMB Timeline:</strong> 8 weeks between Gold Coast (5 Jul) and UTMB OCC (27 Aug) is tight but manageable. Weeks 23-24 are full recovery. Weeks 25-26 rebuild trail fitness. Week 27 is your RACE SIMULATION - back-to-back long runs (20km Saturday evening + 30km Sunday morning) to test fueling and mental toughness on fatigued legs. Week 28-29 final prep and taper. This works because UTMB is a B-race - you're finishing for the experience, not racing for time.</p>
+                
+                <p><strong>Strength Training:</strong> Include 2x weekly on Monday and Wednesday: glute bridges, single-leg deadlifts, calf raises, planks, side planks. 20-30 minutes each session. This protects against accumulated fatigue and injury. During recovery weeks, go lighter with higher reps.</p>
+                
+                <p><strong>Fueling Strategy:</strong> Practice during long runs. For UTA50: fuel every 30-45min (gels, bars, real food at aid stations). For Gold Coast Marathon: fuel every 5km starting at 10km. For UTMB OCC: fuel every 30-45min, take everything at aid stations, poles recommended.</p>
+                
+                <p><strong>Recovery is Non-Negotiable:</strong> Week 16 (post-UTA50) and weeks 23-24 (post-marathon) are crucial. Take rest days seriously. Sleep 8-9+ hours nightly. No strength training during full recovery weeks. Quality recovery determines your next race success.</p>
+                
+                <p><strong>Travel Considerations:</strong> UTMB week includes Mon/Tue travel to Chamonix, race Thursday. Build this into your taper - no hard running on arrival days. Use Monday/Tuesday for light walks and settling in. Race is Thursday so you have Friday-Sunday to celebrate!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<TrainingPlan />);
+  </script>
+</body>
+</html>
